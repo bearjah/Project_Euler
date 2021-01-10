@@ -28,7 +28,6 @@ def check_prime(num):
     return True
 
 
-# 85
 def count_rectangles(n, threshold, max_height):
     height = 1
     width = 1
@@ -66,29 +65,75 @@ def binom(n, k):
     return math.factorial(n) // math.factorial(k) // math.factorial(n - k)
 
 
+def coin_sum(val):
+    possible_values = np.array([1, 2, 5, 10, 20, 50, 100, 200])
+    poss_sum = 0
+    for i1 in range(val, 0, -possible_values[7]):
+        for i2 in range(i1, 0, -possible_values[6]):
+            for i3 in range(i2, 0, -possible_values[5]):
+                for i4 in range(i3, 0, -possible_values[4]):
+                    for i5 in range(i4, 0, -possible_values[3]):
+                        for i6 in range(i5, 0, -possible_values[2]):
+                            for i7 in range(i6, 0, -possible_values[1]):
+                                # for i8 in range(i7, int(val / possible_values[0])):
+                                # print(i1, i2, i3, i4, i5, i6, i7, i8)
+                                poss_sum += 1
+    return poss_sum
+
+
+def coin_sum_dp(val):
+    possible_values = np.array([1, 2, 5, 10, 20, 50, 100, 200])
+    ways = np.zeros(val+1)
+    ways[0] = 1
+    for i in range(len(possible_values)):
+        for j in range(possible_values[i], val+1):
+            ways[j] += ways[j - possible_values[i]]
+    return ways[val]
+
+
 def counting_summation(n):
-    if n <= 2:
-        print('returned(n==2):1')
-        return 1
-    a = n - 1
-    b = n % a
-    print(a, b, n)
-    return counting_summation(a) + counting_summation(b)
-
-    # for b in range(1, int(n/2+1)):  # int(n/2+1)):
-    #     a = n - b
-    #     print(a, b, n)
-    #     count += counting_summation(a) + counting_summation(b)
-    # return count
+    ways = np.zeros(n+1)
+    ways[0] = 1
+    for i in range(1, n):
+        for j in range(i, n+1):
+            ways[j] += ways[j - i]
+            # print(ways[j], j, i)
+    return ways[n]
 
 
-# n = 5: (6 options)
-# 4 + 1 *
-# 3 + 2
-# 3 + 1 + 1 *
-# 2 + 2 + 1
-# 2 + 1 + 1 + 1 *
-# 1 + 1 + 1 + 1 + 1 *
+def distinct_prime_factor(consecutive_count):
+    consecutive_found = False
+    consecutive_num_list = np.zeros(consecutive_count)
+    consecutive_num_list[0] = 6
+    consecutive_num_list[1] = 7
+    # consecutive_num_list[2] = 4
+    # consecutive_num_list[3] = 5
+    while consecutive_found is False:
+        if check_distinct_primes(consecutive_num_list):
+            consecutive_found = True
+        consecutive_num_list += consecutive_count
+
+
+def get_primes(num):
+    prime_list = []
+    for i in range(2, int(num)+1):
+        if num % i == 0:
+            if check_prime(i):
+                prime_list.append(i)
+    return prime_list
+
+
+def check_distinct_primes(num_list):
+    prime_list = []
+    for num in num_list:
+        prime_list = get_primes(num)
+        print(prime_list)
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
@@ -102,5 +147,7 @@ if __name__ == '__main__':
     # # n = 18
     # threshold = 3 # 2
     # print(find_optimal_area(n, threshold))
-    print('sum ways result:', counting_summation(5))
+    # print('sum ways count:', counting_summation(5))
+    # print('coin sum ways count:', coin_sum_dp(200))
+    print('distinct_prime_factor:', distinct_prime_factor(2))
 
