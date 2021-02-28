@@ -84,8 +84,8 @@ def main(source: click.File):
                 total_contained += 1
         ix = intersection_points['x'] + [0] * len(intersection_points['y'])
         iy = [0] * len(intersection_points['x']) + intersection_points['y']
-        # print(contained)
-        # plot_triangle(t, ix, iy)
+        print(contained)
+        plot_triangle(t, ix, iy)
     print(total_contained)
 
 
@@ -113,7 +113,7 @@ def main(source: click.File):
 #            # iy.append(rotated[1])
 #            print(p1, p2, d, p, rotated, i)
 
-def plot_triangle(t, ix, iy):
+def plot_triangle(t, ix = None, iy = None):
     x = [t[i] for i in range(0, 6, 2)]
     y = [t[i] for i in range(1, 6, 2)]
     x.append(t[0])
